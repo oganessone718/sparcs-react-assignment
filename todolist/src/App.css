@@ -19,3 +19,29 @@
   width:20%;
   margin: auto;
 }
+.filter{
+  margin: 2px;
+  font-weight: bold;
+  color: rgb(150, 150, 177);
+  border: none;
+  background-color: white;
+}
+.filter:active{
+  margin: 2px;
+  font-weight: bold;
+  color: rgb(21, 21, 199);
+  border: none;
+  background-color: white;
+}
+table {
+  margin: auto;
+  border-spacing: 0px;
+  border-collapse: separate;
+  width: 600px;
+}
+table thead {
+  background: #c0c0c0;
+} 
+#filtering{
+  margin-top: 30px;
+}

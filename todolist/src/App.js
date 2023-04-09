@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import Todolist from './Todolist';
 
 const App = () => {
 
@@ -10,10 +9,24 @@ const App = () => {
   const [id, setID] = useState(0);
 
   const submitHandler = (event)=>{
+    var import_Kor;
     event.preventDefault();
+    switch(parseInt(event.target.importance.value)){
+      case 0:
+        import_Kor = "낮음";
+        break;
+      case 1:
+        import_Kor = "중간";
+        break;
+      case 2:
+        import_Kor = "높음";
+        break;
+      default:
+        break;
+    }
     setTodo(
       {name: event.target.name.value,
-      importance: event.target.importance.value,
+      importance: import_Kor,
       due: event.target.due.value,
       content: event.target.content.value,
       id: id,
@@ -29,11 +42,52 @@ const App = () => {
   },[todo]);
 
   function removeTable(id){
-    console.log(todos[0]);
-    console.log(id);
-    console.log(todos.filter((todo)=> (todo.todo.id!=id)));
-    console.log("sp");
     setTodos(todos.filter((todo)=> (todo.todo.id!=id)));
+  }
+
+  function filterTable(importance){
+    console.log(importance);
+    if(importance==="전체"){
+      setTablebody(todos.map(
+        (todo)=>{
+          return(
+            <tr>
+              <td>{todo.todo.name}</td>
+              <td>{todo.todo.importance}</td>
+              <td>{todo.todo.due}</td>
+              <td>{todo.todo.content}</td>
+                <td>
+                <button onClick={()=>{removeTable(todo.todo.id)}}>
+                  ❌ 
+                </button>  
+              </td>  
+            </tr>  
+          );
+        }
+      ))
+    }
+    else{
+      setTablebody(todos.map(
+      (todo)=>{
+        if(todo.todo.importance===importance){
+          return(
+            <tr>
+              <td>{todo.todo.name}</td>
+              <td>{todo.todo.importance}</td>
+              <td>{todo.todo.due}</td>
+              <td>{todo.todo.content}</td>
+                <td>
+                <button onClick={()=>{removeTable(todo.todo.id)}}>
+                  ❌ 
+                </button>  
+              </td>  
+            </tr>  
+          );
+        }
+      }
+    ))
+    }
+
   }
 
   useEffect(()=>{
@@ -55,7 +109,6 @@ const App = () => {
         );
       }
     ));
-    console.log("ㅜㅜ");
   },[todos]);
 
   return (
@@ -66,7 +119,7 @@ const App = () => {
         <h2 id="todoAddTitle">새로운 할 일</h2>
         <form id="todoAddContent" onSubmit={submitHandler}>
           <section className="name">
-            <label for= "name">제목: </label>
+            <label for= "name">종류: </label>
             <input type="text" name="name" id="name" required></input>
           </section>
           <section className="importance">
@@ -85,10 +138,17 @@ const App = () => {
         </form>
       </section>
       <hr className="separate"></hr>
+      <section>
+        <p id="filtering">중요도 필터링 </p>
+        <button className='filter' onClick={()=>{filterTable("전체")}}>전체</button>
+        <button className='filter' onClick={()=>{filterTable("높음")}}>높음</button>
+        <button className='filter' onClick={()=>{filterTable("중간")}}>중간</button>
+        <button className='filter' onClick={()=>{filterTable("낮음")}}>낮음</button>
+      </section>
       <table border="1" className="todoTable">
         <thead>
           <tr className="todoTableHead">
-            <th scope="col">이름</th>
+            <th scope="col">종류</th>
             <th scope="col">중요도</th>
             <th scope="col">기한</th>
             <th scope="col">내용</th>
@@ -98,8 +158,8 @@ const App = () => {
         <tbody>
           {tablebody}
         </tbody>
-          
       </table>
+      
     </>
 
   );
