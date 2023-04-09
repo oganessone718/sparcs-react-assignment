@@ -29,49 +29,34 @@ const App = () => {
   },[todo]);
 
   function removeTable(id){
-    setTodos(todos.filter((todo)=> (todo.id!=id)));
+    console.log(todos[0]);
+    console.log(id);
+    console.log(todos.filter((todo)=> (todo.todo.id!=id)));
+    console.log("sp");
+    setTodos(todos.filter((todo)=> (todo.todo.id!=id)));
   }
 
   useEffect(()=>{
     setTablebody(todos.map(
       (todo)=>{
-        console.log(todo);
-        console.log(todo.name);
+        console.log(todo.todo);
         return(
           <tr>
-            <td>{todo.name}</td>
-            <td>{todo.importance}</td>
-            <td>{todo.due}</td>
-            <td>{todo.content}</td>
+            <td>{todo.todo.name}</td>
+            <td>{todo.todo.importance}</td>
+            <td>{todo.todo.due}</td>
+            <td>{todo.todo.content}</td>
               <td>
-              <button onClick={()=>{removeTable(todo.id)}}>
+              <button onClick={()=>{removeTable(todo.todo.id)}}>
                 ❌ 
               </button>  
             </td>  
           </tr>  
         );
-
       }
     ));
+    console.log("ㅜㅜ");
   },[todos]);
-
-  // function showTable(todo){
-  //   return(
-  //     <tr>
-  //       <td>{todo.name}</td>
-  //       <td>{todo.importance}</td>
-  //       <td>{todo.due}</td>
-  //       <td>{todo.content}</td>
-  //       <td>
-  //         <button onClick={()=>{removeTable(todo.id)}}>
-  //           ❌
-  //         </button>
-  //       </td>
-  //     </tr>
-  //   );
-  // }
-
-
 
   return (
     <>
